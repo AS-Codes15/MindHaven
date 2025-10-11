@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+.env
+*.log
+*.sqlite3
+.ipynb_checkpoints/
+*.zip
+.streamlit/
+.DS_Store
+Thumbs.db
+
