@@ -91,7 +91,7 @@ with cols[0]:
         st.write("")  # keep layout consistent
 
 with cols[1]:
-    st.title("🧠 Mental Health Companion")
+    st.title("MindHaven - Mental Health Companion")
     st.write("Track your mood, write journals, and find supportive suggestions powered by AI.")
 
 
