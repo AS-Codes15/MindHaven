@@ -1,11 +1,19 @@
+import os
 import sqlite3
 import bcrypt
 
-DB_PATH = "data/companion.db"
+os.makedirs("data", exist_ok=True)
+
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "data" / "companion.db"
+
+os.makedirs(BASE_DIR / "data", exist_ok=True)
 
 def init_users_table():
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(str(DB_PATH))
     cur = conn.cursor()
 
     cur.execute("""
@@ -23,7 +31,7 @@ def init_users_table():
 
 def register_user(name, email, password):
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(str(DB_PATH))
     cur = conn.cursor()
 
     password_hash = bcrypt.hashpw(
@@ -65,7 +73,7 @@ def register_user(name, email, password):
 
 def login_user(email, password):
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(str(DB_PATH))
     cur = conn.cursor()
 
     cur.execute(
