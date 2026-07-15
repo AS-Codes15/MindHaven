@@ -1,11 +1,18 @@
 import streamlit as st
+
+if not st.session_state.get("logged_in", False):
+    st.warning("Please login first")
+    st.stop()
+
 import pandas as pd
 import plotly.express as px
 from utils.db import get_entries
 
 st.title("📊 Mood Tracker")
 
-data = get_entries()
+username = st.session_state["username"]
+data = get_entries(st.session_state.username)
+
 if len(data) > 0:
     # Convert date column to datetime
     data["date"] = pd.to_datetime(data["date"])

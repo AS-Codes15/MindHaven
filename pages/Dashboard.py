@@ -1,27 +1,19 @@
-# import streamlit as st
-# import pandas as pd
-# from utils.db import get_entries
-
-# st.title("🏠 Dashboard")
-# st.write("Here’s an overview of your mental wellness journey.")
-
-# try:
-#     df = get_entries()
-#     st.dataframe(df)
-# except:
-#     st.info("No journal entries yet. Start journaling to see progress here!")
-
-
 import streamlit as st
+
+if not st.session_state.get("logged_in", False):
+    st.warning("Please login first")
+    st.stop()
+    
 import pandas as pd
 import plotly.express as px
-from utils.db import get_entries
+from utils.db import get_entries  
 
 st.title("🏠 Dashboard")
 st.write("Here’s an overview of your mental wellness journey.")
 
 try:
-    df = get_entries()
+    username = st.session_state["username"]
+    df = get_entries(st.session_state.username)
     if not df.empty:
         # Convert date column to datetime
         df["date"] = pd.to_datetime(df["date"])

@@ -1,26 +1,57 @@
 import streamlit as st
+
+if not st.session_state.get("logged_in", False):
+    st.warning("Please login first")
+    st.stop()
+
 import datetime
 from utils.db import add_entry, get_entries
 
+username = st.session_state["username"]
+
 st.title("📝 Journal")
 
-# --- Input Section ---
 date = st.date_input("Date", datetime.date.today())
-mood = st.selectbox("Mood", ["😊 Happy", "😐 Neutral", "😔 Sad", "😡 Angry"])
+
+mood = st.selectbox(
+    "Mood",
+    ["😊 Happy", "😐 Neutral", "😔 Sad", "😡 Angry"]
+)
+
 entry = st.text_area("Write your thoughts...")
 
 if st.button("Save"):
-    if entry.strip():  # Ensure user entered something
-        add_entry(str(date), mood, entry)
-        st.success("Entry saved successfully!")
-    else:
-        st.warning("Please write something before saving.")
 
-# --- Display Previous Entries ---
-entries = get_entries()
+    if entry.strip():
+
+        add_entry(
+            username,
+            str(date),
+            mood,
+            entry
+        )
+
+        st.success("Entry saved successfully!")
+
+    else:
+        st.warning("Please write something.")
+
+entries = get_entries(username)
 
 st.subheader("Previous Entries")
+
 if not entries.empty:
-    st.dataframe(entries.rename(columns={"date": "Date", "mood": "Mood", "entry": "Entry"}))
+
+    st.dataframe(entries)
+
+    csv = entries.to_csv(index=False).encode("utf-8-sig")
+
+    st.download_button(
+        label="📥 Download Journal as CSV",
+        data=csv,
+        file_name=f"{username}_journal.csv",
+        mime="text/csv"
+    )
+
 else:
-    st.info("No journal entries yet. Start by adding one above!")
+    st.info("No entries found.")

@@ -10,3 +10,8 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+data/companion.db
+config.yaml
+app_backup.py
+check_users.py
+hash_password.py
