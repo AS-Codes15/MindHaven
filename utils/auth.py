@@ -87,10 +87,20 @@ def login_user(email, password):
 
     user = cur.fetchone()
 
+    print("USER FOUND:", user)
+
     conn.close()
 
     if not user:
         return None
+
+    print(
+        "PASSWORD CHECK:",
+        bcrypt.checkpw(
+            password.encode(),
+            user[0].encode()
+        )
+    )
 
     if bcrypt.checkpw(
         password.encode(),

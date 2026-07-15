@@ -36,6 +36,9 @@ if "logged_in" not in st.session_state:
 if "username" not in st.session_state:
     st.session_state.username = ""
 
+print("logged_in =", st.session_state.logged_in)
+print("username =", st.session_state.username)
+
 # ==========================
 # LOGIN / REGISTER
 # ==========================
@@ -70,6 +73,9 @@ if not st.session_state.logged_in:
             )
 
             if name:
+
+                st.write("LOGIN SUCCESS")
+                st.write(name)
 
                 st.session_state.logged_in = True
                 st.session_state.username = name
